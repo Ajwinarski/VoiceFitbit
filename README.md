@@ -42,5 +42,5 @@ cd seeed-voicecard
 sudo ./install.py
 sudo reboot
  
-### after reboot you should be set to run sounddevice in python *
+### after reboot you should be set to run sounddevice in python
 

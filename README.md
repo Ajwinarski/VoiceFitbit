@@ -4,9 +4,9 @@ Voice activity detection for wearable devices
 ## Sounddeive recording using RPi Zero W
 ### NOTE: You MUST run the following commands before beginning
 
-sudo apt install libasound-dev portaudio19-dev libportaudio2 libportaudiocpp0 ffmpeg libav-tools
-sudo apt-get install python3-dev python3-venv
-python3 -m venv env
+sudo apt install libasound-dev portaudio19-dev libportaudio2 libportaudiocpp0 ffmpeg libav-tools 
+sudo apt-get install python3-dev python3-venv 
+python3 -m venv env 
 env/bin/python -m pip install --upgrade pip setuptools
  
 sudo nano /boot/config.txt

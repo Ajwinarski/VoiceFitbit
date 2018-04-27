@@ -31,7 +31,6 @@ class Recorder():
                         help='audio file to store recording to')
     parser.add_argument('-t', '--subtype', type=str, help='sound file subtype (e.g. "PCM_24")')
     args = parser.parse_args()
-    args.filename = time.strftime("%d_%m_%Y-%S_%M_%H.wav")
 
     BUTTON = 17
     GPIO.setmode(GPIO.BCM)
@@ -57,7 +56,16 @@ class Recorder():
     def __init__(self):
         self.state = GPIO.input(BUTTON)
         self.recording = False
-
+        if args.list_devices:
+            print(sd.query_devices())
+            parser.exit(0)
+        if args.samplerate is None:
+            device_info = sd.query_devices(args.device, 'input')
+            # soundfile expects an int, sounddevice provides a float:
+            args.samplerate = int(device_info['default_samplerate'])
+        if args.filename is None:
+            args.filename = time.strftime("%d_%m_%Y-%S_%M_%H.wav")
+            
     def record(self):
         # runs until Ctrl-C is pressed or an exception is had
         try:

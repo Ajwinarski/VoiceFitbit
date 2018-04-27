@@ -54,19 +54,16 @@ class Recorder():
 
         def callback(indata, frames, time, status):
             """This is called (from a separate thread) for each audio block."""
-            state = GPIO.input(17)
             if status:
                 print(status, file=sys.stderr)
-            if state:
-                q.put(indata.copy())
-            else:
-                self.end()
-                pass
+            q.put(indata.copy())
+
+        stream = sd.InputStream(samplerate=self.args.samplerate, device=0,
+                            channels=self.args.channels, callback=callback)
 
         with sf.SoundFile(self.args.filename, mode='x', samplerate=self.args.samplerate,
                             channels=self.args.channels, subtype=self.args.subtype) as file:
-            with sd.InputStream(samplerate=self.args.samplerate, device=0,
-                                channels=self.args.channels, callback=callback):
+            with stream:
                 print("Recording audio.")
                 while True:
                     state = GPIO.input(17)

@@ -9,10 +9,12 @@ import sys
 import sounddevice as sd
 import soundfile as sf
 
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(17, GPIO.IN)
+
 
 class Recorder():
+
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(17, GPIO.IN)
 
     def __init__(self):
         def int_or_str(text):
@@ -56,7 +58,9 @@ class Recorder():
             print("Press button to begin recording.")
             while not self.state:
                 time.sleep(0.1)
-            self.begin()
+                print("open")
+            #self.begin()
+            print("closed")
 
         except KeyboardInterrupt:
             print('\nRecording finished: ' + repr(self.args.filename))

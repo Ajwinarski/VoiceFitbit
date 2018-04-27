@@ -28,7 +28,7 @@ def create_wav(filename):
     for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
         data = stream.read(CHUNK)
         frames.append(data)
-        #print(data)
+        print(data)
 
 #print "finished recording"
 

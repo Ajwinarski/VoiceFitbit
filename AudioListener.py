@@ -13,10 +13,7 @@ import soundfile as sf
 
 class Recorder():
 
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(17, GPIO.IN)
-
-    def __init__(self):
+    def __init__(self, state):
         def int_or_str(text):
             """Helper function for argument parsing."""
             try:
@@ -39,7 +36,7 @@ class Recorder():
         self.args.filename = tempfile.mktemp(prefix=time.strftime("%d%m%Y-%S%M%H"),
                                         suffix='.wav', dir='')
 
-        self.state = GPIO.input(17)     # BUTTON = 17
+        self.state = state
         self.recording = False
 
         if self.args.list_devices:
@@ -94,7 +91,14 @@ class Recorder():
 
 
 if __name__ == "__main__":
-    r = Recorder()
+
+    BUTTON = 17
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(BUTTON, GPIO.IN)
+    state = GPIO.input(BUTTON)
+
+    r = Recorder(state)
+
 
     while True:
         r.record()

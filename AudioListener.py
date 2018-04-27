@@ -54,9 +54,13 @@ class Recorder():
 
         def callback(indata, frames, time, status):
             """This is called (from a separate thread) for each audio block."""
+            state = GPIO.input(17)
             if status:
                 print(status, file=sys.stderr)
-            q.put(indata.copy())
+            if state:
+                q.put(indata.copy())
+            else:
+                self.end()
 
         with sf.SoundFile(self.args.filename, mode='x', samplerate=self.args.samplerate,
                             channels=self.args.channels, subtype=self.args.subtype) as file:
@@ -64,14 +68,15 @@ class Recorder():
                                 channels=self.args.channels, callback=callback):
                 print("Recording audio.")
                 while True:
-                    state = GPIO.input(17)
-                    if state:
-                        file.write(q.get())
-                    else:
-                        self.end()
+                    file.write(q.get())
+                    #state = GPIO.input(17)
+                    #if state:
+                    #    time.sleep(0.03)
+                    #else:
+                    #    self.end()
 
     def end(self):
-        print('\nRecording finished: ' + repr(self.args.filename))
+        print('\nRecording finished at: ' + repr(self.args.filename))
         pass
 
 
@@ -87,9 +92,9 @@ if __name__ == "__main__":
     while True:
         state = GPIO.input(BUTTON)
         try:
-            # Wait for user to click button
+            # Wait for user to click button (open if state )
             if state:
-                time.sleep(0.4)
+                time.sleep(0.05)
             else:
                 r.begin()
             #print("closed")

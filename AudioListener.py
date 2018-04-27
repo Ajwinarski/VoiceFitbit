@@ -65,7 +65,7 @@ class Recorder():
                 print("Recording audio.")
                 while True:
                     state = GPIO.input(17)
-                    if not state:
+                    if state:
                         file.write(q.get())
                     else:
                         self.end()
@@ -88,7 +88,7 @@ if __name__ == "__main__":
         state = GPIO.input(BUTTON)
         try:
             # Wait for user to click button
-            if not state:
+            if state:
                 time.sleep(0.4)
             else:
                 r.begin()

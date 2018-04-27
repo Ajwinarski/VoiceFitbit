@@ -31,7 +31,7 @@ class Recorder():
                         help='audio file to store recording to')
     parser.add_argument('-t', '--subtype', type=str, help='sound file subtype (e.g. "PCM_24")')
     args = parser.parse_args()
-    args.filename = time.strftime("%d_%m_%Y-%S_%M_%H")
+    args.filename = time.strftime("%d_%m_%Y-%S_%M_%H.wav")
 
     BUTTON = 17
     GPIO.setmode(GPIO.BCM)
@@ -77,7 +77,7 @@ class Recorder():
         with file:
             with stream:
                 print("Recording audio.")
-                args.filename = time.strftime("%d_%m_%Y-%S_%M_%H")
+                args.filename = time.strftime("%d_%m_%Y-%S_%M_%H.wav")
                 while not self.state:
                     file.write(q.get())
                 end()

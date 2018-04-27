@@ -56,7 +56,7 @@ class Recorder():
             print("Press button to begin recording.")
             while not self.state:
                 time.sleep(0.1)
-            begin()
+            self.begin()
 
         except KeyboardInterrupt:
             print('\nRecording finished: ' + repr(self.args.filename))
@@ -82,7 +82,7 @@ class Recorder():
                 print("Recording audio.")
                 while not self.state:
                     file.write(q.get())
-                end()
+                self.end()
 
     def end(self):
         print('\nRecording finished: ' + repr(self.args.filename))

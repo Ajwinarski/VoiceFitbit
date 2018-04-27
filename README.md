@@ -18,6 +18,7 @@ sudo nano /boot/config.txt
 
 sudo nano /etc/asound.conf
 * modift the current pcm.dmixed to the following... *
+
 .
 .
 .pcm.dmixed {

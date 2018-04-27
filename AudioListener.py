@@ -86,14 +86,14 @@ if __name__ == "__main__":
         try:
             # Wait for user to click button
             print("Press button to begin recording.")
-            while not self.state:
+            while not state:
                 time.sleep(0.3)
                 print("open")
             r.begin()
             #print("closed")
 
         except KeyboardInterrupt:
-            print('\nRecording finished: ' + repr(self.args.filename))
-            self.parser.exit(0)
+            print('\nRecording finished: ' + repr(r.args.filename))
+            r.parser.exit(0)
         except Exception as e:
-            self.parser.exit(type(e).__name__ + ': ' + str(e))
+            r.parser.exit(type(e).__name__ + ': ' + str(e))

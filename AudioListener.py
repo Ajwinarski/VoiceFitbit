@@ -53,7 +53,7 @@ class Recorder():
         try:
             # Wait for user to click button
             print("Press button to begin recording.")
-            while not self.state:
+            while self.state:
                 time.sleep(0.1)
                 print("open")
             #self.begin()

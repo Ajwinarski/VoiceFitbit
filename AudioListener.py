@@ -64,7 +64,7 @@ class Recorder():
                                 channels=self.args.channels, callback=callback):
                 print("Recording audio.")
                 while True:
-                    state = GPIO.input(BUTTON)
+                    state = GPIO.input(17)
                     while not state:
                         file.write(q.get())
                     self.end()

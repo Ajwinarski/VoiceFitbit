@@ -25,7 +25,7 @@ class Recorder():
                         help='show list of audio devices and exit')
     parser.add_argument('-d', '--device', type=int_or_str,
                         help='input device (numeric ID or substring)')
-    parser.add_argument(-r', '--samplerate', type=int, help='sampling rate')
+    parser.add_argument('-r', '--samplerate', type=int, help='sampling rate')
     parser.add_argument('-c', '--channels', type=int, default=1, help='number of input channels')
     parser.add_argument('filename', nargs='?', metavar='FILENAME',
                         help='audio file to store recording to')

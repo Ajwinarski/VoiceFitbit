@@ -34,19 +34,13 @@ class Recorder():
     args.filename = tempfile.mkstemp(prefix=time.strftime("%d%m%Y-%S%M%H"),
                                     suffix='.wav', dir='')
 
-    BUTTON = 17
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(BUTTON, GPIO.IN)
-    q = queue.Queue()
 
-    def callback(indata, frames, time, status):
-        """This is called (from a separate thread) for each audio block."""
-        if status:
-            print(status, file=sys.stderr)
-        q.put(indata.copy())
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(17, GPIO.IN)
 
     def __init__(self):
-        self.state = GPIO.input(BUTTON)
+        global q, args, parser
+        self.state = GPIO.input(17)     # BUTTON = 17
         self.recording = False
         if args.list_devices:
             print(sd.query_devices())
@@ -73,8 +67,15 @@ class Recorder():
             parser.exit(type(e).__name__ + ': ' + str(e))
 
     def begin(self):
+        q = queue.Queue()
         args.filename = tempfile.mkstemp(prefix=time.strftime("%d%m%Y-%S%M%H"),
                                         suffix='.wav', dir='')
+
+        def callback(indata, frames, time, status):
+            """This is called (from a separate thread) for each audio block."""
+            if status:
+                print(status, file=sys.stderr)
+            q.put(indata.copy())
 
         with sf.SoundFile(args.filename, mode='x', samplerate=args.samplerate,
                             channels=args.channels, subtype=args.subtype) as file:

@@ -61,6 +61,7 @@ class Recorder():
                 q.put(indata.copy())
             else:
                 self.end()
+                pass
 
         with sf.SoundFile(self.args.filename, mode='x', samplerate=self.args.samplerate,
                             channels=self.args.channels, subtype=self.args.subtype) as file:
@@ -68,12 +69,12 @@ class Recorder():
                                 channels=self.args.channels, callback=callback):
                 print("Recording audio.")
                 while True:
-                    file.write(q.get())
-                    #state = GPIO.input(17)
-                    #if state:
-                    #    time.sleep(0.03)
-                    #else:
-                    #    self.end()
+                    state = GPIO.input(17)
+                    if state:
+                        file.write(q.get())
+                    else:
+                        self.end()
+                        pass
 
     def end(self):
         print('\nRecording finished at: ' + repr(self.args.filename))

@@ -34,7 +34,7 @@ class Recorder():
                             help='audio file to store recording to')
         self.parser.add_argument('-t', '--subtype', type=str, help='sound file subtype (e.g. "PCM_24")')
         self.args = self.parser.parse_args()
-        args.filename = tempfile.mkstemp(prefix=time.strftime("%d%m%Y-%S%M%H"),
+        self.args.filename = tempfile.mkstemp(prefix=time.strftime("%d%m%Y-%S%M%H"),
                                         suffix='.wav', dir='')
 
         self.state = GPIO.input(17)     # BUTTON = 17

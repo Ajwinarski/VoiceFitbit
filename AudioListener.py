@@ -48,9 +48,6 @@ class Recorder():
             self.args.samplerate = int(device_info['default_samplerate'])
 
 
-    def record(self):
-
-
     def begin(self):
         q = queue.Queue()
         self.args.filename = tempfile.mktemp(prefix=time.strftime("%d%m%Y-%S%M%H"),

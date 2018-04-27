@@ -64,8 +64,9 @@ class Recorder():
             # soundfile expects an int, sounddevice provides a float:
             args.samplerate = int(device_info['default_samplerate'])
         if args.filename is None:
-            args.filename = time.strftime("%d_%m_%Y-%S_%M_%H.wav")
-            
+            args.filename = tempfile.mktemp(prefix=time.strftime("%d%m%Y-%S%M%H"),
+                                            suffix='.wav', dir='')
+
     def record(self):
         # runs until Ctrl-C is pressed or an exception is had
         try:

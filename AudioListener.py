@@ -49,21 +49,7 @@ class Recorder():
 
 
     def record(self):
-        # runs until Ctrl-C is pressed or an exception is had
-        try:
-            # Wait for user to click button
-            print("Press button to begin recording.")
-            while self.state:
-                time.sleep(0.1)
-                print("open")
-            #self.begin()
-            print("closed")
 
-        except KeyboardInterrupt:
-            print('\nRecording finished: ' + repr(self.args.filename))
-            self.parser.exit(0)
-        except Exception as e:
-            self.parser.exit(type(e).__name__ + ': ' + str(e))
 
     def begin(self):
         q = queue.Queue()
@@ -98,7 +84,19 @@ if __name__ == "__main__":
     state = GPIO.input(BUTTON)
 
     r = Recorder(state)
-
-
+    # runs until Ctrl-C is pressed or an exception is had
     while True:
-        r.record()
+        try:
+            # Wait for user to click button
+            print("Press button to begin recording.")
+            while not self.state:
+                time.sleep(0.3)
+                print("open")
+            r.begin()
+            #print("closed")
+
+        except KeyboardInterrupt:
+            print('\nRecording finished: ' + repr(self.args.filename))
+            self.parser.exit(0)
+        except Exception as e:
+            self.parser.exit(type(e).__name__ + ': ' + str(e))

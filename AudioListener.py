@@ -71,7 +71,7 @@ class Recorder():
                         file.write(q.get())
                     else:
                         self.end()
-                        pass
+                        break
 
     def end(self):
         print('\nRecording finished at: ' + repr(self.args.filename))

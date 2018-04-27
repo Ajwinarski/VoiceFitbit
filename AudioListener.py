@@ -13,7 +13,7 @@ import soundfile as sf
 
 class Recorder():
 
-    def __init__(self, state):
+    def __init__(self):
         def int_or_str(text):
             """Helper function for argument parsing."""
             try:
@@ -34,9 +34,8 @@ class Recorder():
         self.parser.add_argument('-t', '--subtype', type=str, help='sound file subtype (e.g. "PCM_24")')
         self.args = self.parser.parse_args()
         self.args.filename = tempfile.mktemp(prefix=time.strftime("%d%m%Y-%S%M%H"),
-                                        suffix='.wav', dir='')
+                                        suffix='.wav', dir='./Audio/')
 
-        self.state = state
         self.recording = False
 
         if self.args.list_devices:
@@ -51,7 +50,7 @@ class Recorder():
     def begin(self):
         q = queue.Queue()
         self.args.filename = tempfile.mktemp(prefix=time.strftime("%d%m%Y-%S%M%H"),
-                                        suffix='.wav', dir='')
+                                        suffix='.wav', dir='./Audio/')
 
         def callback(indata, frames, time, status):
             """This is called (from a separate thread) for each audio block."""
@@ -64,9 +63,11 @@ class Recorder():
             with sd.InputStream(samplerate=self.args.samplerate, device=0,
                                 channels=self.args.channels, callback=callback):
                 print("Recording audio.")
-                while not self.state:
-                    file.write(q.get())
-                self.end()
+                while True:
+                    state = GPIO.input(BUTTON)
+                    while not state:
+                        file.write(q.get())
+                    self.end()
 
     def end(self):
         print('\nRecording finished: ' + repr(self.args.filename))
@@ -78,17 +79,16 @@ if __name__ == "__main__":
     BUTTON = 17
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(BUTTON, GPIO.IN)
-    state = GPIO.input(BUTTON)
 
-    r = Recorder(state)
+    r = Recorder()
+    print("Press button to begin recording.")
     # runs until Ctrl-C is pressed or an exception is had
     while True:
+        state = GPIO.input(BUTTON)
         try:
             # Wait for user to click button
-            print("Press button to begin recording.")
             while not state:
-                time.sleep(0.3)
-                print("open")
+                time.sleep(0.4)
             r.begin()
             #print("closed")
 

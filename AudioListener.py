@@ -77,6 +77,7 @@ class Recorder():
 
     def end(self):
         print('\nRecording finished at: ' + repr(self.args.filename))
+        time.sleep(0.5)
         pass
 
 
@@ -96,6 +97,7 @@ if __name__ == "__main__":
             if state:
                 time.sleep(0.05)
             else:
+                time.sleep(0.4)
                 r.begin()
             #print("closed")
 

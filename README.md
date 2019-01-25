@@ -1,7 +1,7 @@
 # VoiceFitbit
 Voice activity detection for wearable devices
 
-## Sounddeive recording using RPi Zero W
+## Sounddevice recording using RPi Zero W
 ### NOTE: You MUST run the following commands before beginning
 
 sudo apt install libasound-dev portaudio19-dev libportaudio2 libportaudiocpp0 ffmpeg libav-tools 
